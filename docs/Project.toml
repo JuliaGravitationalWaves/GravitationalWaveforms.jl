@@ -12,6 +12,7 @@ GravitationalWaveforms = {path = ".."}
 
 [compat]
 Documenter = "1"
+GR = "0.73.27"
 GravitationalWaveData = "0.1"
 Literate = "2"
 Plots = "1"
