@@ -1,0 +1,15 @@
+*.jld2
+.DS_Store
+/docs/build/
+/docs/src/generated/
+/docs/src/conventions.md
+Manifest*.toml
+*.jl.*.cov
+*.jl.cov
+*.jl.mem
+lcov.info
+__pycache__/
+/gen/symbolic/out/
+# generate.jl check: fresh output of a stale generated file
+src/GravitationalWaveforms/*.jl.new
+
