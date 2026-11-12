@@ -1,0 +1,38 @@
+name = "GravitationalWaveforms"
+uuid = "203c5322-2995-43d3-9215-1ac0b1a32352"
+license = "GPL-3.0-or-later"
+version = "0.1.0"
+authors = ["Paul Hopkins <paul.hopkins256@gmail.com>"]
+description = "Gravitational-wave waveform models: the IMRPhenom and SEOBNRv5 families and post-Newtonian inspirals, Float32/Float64-generic and differentiable."
+
+[deps]
+GravitationalWaveData = "d4636edc-8908-4226-933a-005f27205ddf"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+
+[compat]
+Aqua = "0.8"
+CUDA = "6"
+DelimitedFiles = "1"
+Enzyme = "0.13.202"
+GravitationalWaveData = "0.1"
+KernelAbstractions = "0.9.42"
+LinearAlgebra = "1"
+Printf = "1"
+Random = "1"
+StaticArrays = "1.9.19"
+Test = "1"
+julia = "1.13"
+
+[extras]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
+DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
+Enzyme = "7da242da-08ed-463a-9acd-ee780be4f1d9"
+KernelAbstractions = "63c18a36-062a-441e-b654-da1e3ab1ce7c"
+Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Aqua", "CUDA", "DelimitedFiles", "Enzyme", "KernelAbstractions", "Printf", "Random", "Test"]
