@@ -72,11 +72,12 @@ plot(t, h_t; xlims=(-0.3, 0), legend=false,
 # | Asymmetric mass ratio or far from face-on, aligned spin | `IMRPhenomXHM` |
 # | Misaligned (precessing) spins, `(2,2)` mode sufficient | `IMRPhenomXP` |
 # | Misaligned spins **and** higher modes — the general case | `IMRPhenomXPHM` |
+# | Effective-one-body instead of phenomenological (aligned `(2,2)` / higher modes / precessing) | `SEOBNRv5IMRAlignedSpinF2` / `SEOBNRv5HM` / `SEOBNRv5PHM` (see the [SEOBNRv5 tutorial](10_seobnrv5.md)) |
 # | Non-spinning, need `h(t)` directly (time domain) | `TaylorT3` |
 # | Prototyping a new ODE-integrated/differentiable/GPU-kernel model | `ODEToy`'s architecture pattern (not a physical model itself — see the previous tutorial) |
 #
-# Every model above is a direct port of, and was numerically cross-validated against, the
-# corresponding `lalsimulation` generator during development; the test suite holds reference values for each model.
+# Every Phenom and PN model above is a direct port of, and was numerically cross-validated against, the
+# corresponding `lalsimulation` generator during development (the SEOBNRv5 models against pySEOBNR); the test suite holds reference values for each model.
 #
 # That's the full model set this package currently implements. See
 # [Conventions](@ref) for a compact reference to the units/sign conventions used throughout, and

@@ -4,7 +4,7 @@
 # closed form — effective-one-body (EOB) models, in particular, are defined by numerically
 # integrating an ODE for the orbital dynamics. `ODEToy` is **not** a physically useful waveform
 # (see its own module docstring): it's an architecture scaffold that validates the pattern this
-# package's future EOB-track models will reuse — a `StaticArrays`-based state type, a fixed-step,
+# package's EOB models (the SEOBNRv5 family, see [the SEOBNRv5 tutorial](10_seobnrv5.md)) reuse — a `StaticArrays`-based state type, a fixed-step,
 # allocation-free RK4 integrator, and (exercised in `test/odetoy_enzyme_ka_tests.jl`, not covered
 # here) that the whole thing differentiates through `Enzyme.jl` and compiles inside a
 # `KernelAbstractions.jl` GPU kernel. The physics itself is deliberately the simplest possible

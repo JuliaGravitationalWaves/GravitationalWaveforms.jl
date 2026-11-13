@@ -18,6 +18,7 @@ const LITERATE_TOPICS = [
     "07_odetoy_eob",
     "08_waveform_gallery_capstone",
     "09_collocation_fitting",
+    "10_seobnrv5",
 ]
 
 # docs/CONVENTIONS.md is the single source of truth; copy it in rather than keeping a second copy.
@@ -38,6 +39,7 @@ generated_pages = [
     "ODE-Integrated Toy Model" => "generated/07_odetoy_eob.md",
     "Capstone: Waveform Gallery" => "generated/08_waveform_gallery_capstone.md",
     "Collocation-Point Coefficient Fitting" => "generated/09_collocation_fitting.md",
+    "Effective-One-Body: SEOBNRv5" => "generated/10_seobnrv5.md",
 ]
 
 DocMeta.setdocmeta!(GravitationalWaveforms, :DocTestSetup, :(using GravitationalWaveforms); recursive=true)
