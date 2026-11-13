@@ -38,9 +38,10 @@ kernels call.
 
 ## Documentation
 
-A `Documenter.jl` site lives under `docs/`: nine narrative tutorials (one per waveform model, plus
-one on the collocation-point coefficient-fitting technique `IMRPhenomXAS`/`IMRPhenomXHM` use,
-`docs/literate/*.jl`), a [Conventions](docs/CONVENTIONS.md) page (units, sign conventions, the
+The [documentation site](https://juliagravitationalwaves.github.io/GravitationalWaveforms.jl/dev/)
+is built from `docs/`: ten narrative tutorials (the Phenom models, the PN and ODE models, the
+SEOBNRv5 family, a waveform gallery, and the collocation-point coefficient-fitting technique
+`IMRPhenomXAS`/`IMRPhenomXHM` use; sources in `docs/literate/*.jl`), a [Conventions](docs/CONVENTIONS.md) page (units, sign conventions, the
 `m1 >= m2` labeling rule, the `t <= 0` time-domain convention), and an auto-generated API
 reference. Build it locally with:
 
