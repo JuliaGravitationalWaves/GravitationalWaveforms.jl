@@ -52,6 +52,25 @@ convention (`Phi = 2*phi_orbital`), matching the frequency-domain models' own `P
 fixed-step RK4 integrator only produces states at multiples of its step size `dt`; the
 corresponding time is `t = n*dt`.
 
+## SEOBNRv5 models
+
+- `SEOBNRv5IMRAlignedSpinF2` and `SEOBNRv5AlignedSpinF2` follow the `Phi`/`Ampl` interface above
+  (`mc`, `eta`); `SEOBNRv5HM` and `SEOBNRv5PHM` follow `IMRPhenomXHM`'s `h_lm`/`hphc` interface
+  (component masses).
+- `f_min` is the (2,2) starting frequency of the EOB integration; the waveform is zero below it,
+  and a mode `(l, m)` starts at `m/2` times it.
+- Time origin: `SEOBNRv5IMRAlignedSpinF2` and `SEOBNRv5HM` put `t = 0` at the merger (the
+  `(2,2)` peak attachment time), so a likelihood's `t_c` is the merger time. `SEOBNRv5PHM` uses
+  pySEOBNR's `t = 0` (the frame-invariant amplitude peak).
+- `SEOBNRv5PHM` takes spin 3-vectors in the frame where the orbital angular momentum is along `z`
+  at `f_ref` (default `f_min`), and needs a uniform grid `f = k * df` with `1/df` longer than the
+  waveform. It swaps the bodies (and adds `pi` to `phiRef`) when `m1 < m2`.
+- The time-domain functions `seobnrv5hm_td_modes` and `seobnrv5phm_td` work in geometric units
+  (time in units of the total mass `M`, strain in units of `M/dL`).
+- `phiRef` follows pySEOBNR/LAL (the spherical harmonics' azimuth is `pi/2 - phiRef`), which differs
+  from the Phenom models' reference phase, so polarizations from the two families at the same
+  `phiRef` are not directly comparable; compare `h_lm` mode by mode.
+
 ## Float32/Float64 genericity
 
 Every model is generic over the element type of its numeric inputs via the `@Tlit` macro
@@ -86,9 +105,10 @@ differentiated call graphs).
 for bit-exact cross-validation against a specific `lalsimulation` build's own constant values
 (the comparison these numbers were validated against).
 
-## Cross-validation against LALSuite
+## Cross-validation against LALSuite and pySEOBNR
 
-Every model in this package was ported from and numerically cross-validated against
-`lalsimulation` (LIGO/Virgo/KAGRA's reference C implementation) during development. Measured agreement was overwhelmingly machine precision for the aligned-spin
+Every Phenom and post-Newtonian model in this package was ported from and numerically
+cross-validated against `lalsimulation` (LIGO/Virgo/KAGRA's reference C implementation) during
+development; the SEOBNRv5 models were ported from and validated against pySEOBNR 0.3.7. Measured agreement was overwhelmingly machine precision for the aligned-spin
 models, and sub-percent to a few percent for some full precessing multi-mode assembly
 configurations. The test suite holds reference values for each model.
