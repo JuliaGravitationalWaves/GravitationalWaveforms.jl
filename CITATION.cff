@@ -7,7 +7,7 @@ authors:
   - family-names: "Hopkins"
     given-names: "Paul"
     affiliation: "Independent Researcher, Forest of Dean, UK"
-version: "0.1.0"
+version: "0.1.1"
 license: GPL-3.0-or-later
 repository-code: "https://github.com/JuliaGravitationalWaves/GravitationalWaveforms.jl"
 url: "https://juliagravitationalwaves.github.io/GravitationalWaveforms.jl/stable/"

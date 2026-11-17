@@ -138,14 +138,14 @@ end
         @test 1 - best / sqrt(sum(abs2.(num) .* w) * sum(abs2.(tab) .* w)) < 5e-5
     end
     # (2) the (2,2) table agrees with the (2,2)-only SEOBNRv5IMRAlignedSpinF2 table (amp e^{-i psi}, face-on factor
-    # folded into amp; constant phase pi)
+    # folded into amp; same phase: both LAL h_{2,-2})
     o = _HMG._eobimr_coeffs(SEOBNRv5IMRAlignedSpinF2(), mc, eta, c1, c2; f_min = 15.0)
     c15 = _HMG._seobv5hm_coeffs(mc, eta, c1, c2; f_min = 15.0)
     for f in (30.0, 60.0, 100.0, 150.0, 200.0)
         a, psi = _HMG._eobimr_eval(o, f)
         r = _HMG._seobv5hm_fd_eval(c15, 1, f) / (a * cis(-psi))
         @test isapprox(abs(r), 2 / sqrt(5 / (4pi)); rtol = 2e-3)
-        @test abs(angle(-r)) < 2e-3
+        @test abs(angle(r)) < 2e-3
     end
     # (3) public API: h_lm per mode (LAL h_{l,-m}), hphc = the mode sum
     m1, m2 = M * q / (1 + q), M / (1 + q)
@@ -158,4 +158,40 @@ end
         hp2, hc2 = _HMG._xhm_add_mode!(hp2, hc2, l, m, h_lm(SEOBNRv5HM(), l, m, 80.0, m1, m2, c1, c2, 0.5; f_min = 15.0), 1.0, pi / 2 - 0.3)
     end
     @test hp ≈ hp2 && hc ≈ hc2
+end
+
+@testset "SEOBNRv5HM polarizations vs pyseobnr generate_fd_polarizations (absolute phase, LAL convention)" begin
+    # pyseobnr's FFT has its own time origin: maximise over a time shift only, never over phase, so a wrong mode sign
+    # or phi_ref convention shows as a phase at the peak (the (-1)^(l+m) sign this replaced gave ~pi and mm 1.4-1.8)
+    fn = joinpath(@__DIR__, "data", "pyseobnr037_hm_fdpol.csv")   # scripts/pyseobnr_hm_polarizations.py
+    cfgs = Dict{String,Vector{Float64}}(); rows = Dict{String,Vector{Vector{Float64}}}()
+    for l in eachline(fn)
+        if startswith(l, "#")
+            w = split(l)
+            cfgs[w[2]] = parse.(Float64, w[3:8]); rows[w[2]] = Vector{Float64}[]
+        else
+            w = split(l, ',')
+            push!(rows[w[1]], parse.(Float64, w[2:6]))
+        end
+    end
+    for (tag, (m1, m2, c1, c2, inc, phi)) in sort(collect(cfgs))
+        R = reduce(hcat, rows[tag])
+        f = R[1, :]
+        # analytic aLIGO-like PSD weight from 25 Hz (pyseobnr's FFT conditioning tapers the first cycles above 15 Hz)
+        x = f ./ 215.0
+        w = (f .>= 25.0) ./ (x .^ -4.14 .- 5 .* x .^ -2 .+ 111.0 .* (1 .- x .^ 2 .+ 0.5 .* x .^ 4) ./ (1 .+ 0.5 .* x .^ 2))
+        hp, hc = hphc(SEOBNRv5HM(), f, m1, m2, c1, c2, 1.0, inc, phi; f_min = 15.0)
+        for (lab, ref, ours) in (("hp", complex.(R[2, :], R[3, :]), hp), ("hc", complex.(R[4, :], R[5, :]), hc))
+            z = conj.(ref) .* ours .* w
+            cor(dt) = sum(z .* cis.(2pi .* f .* dt))
+            dts = -0.5:2e-4:0.5
+            dt0 = dts[argmax(abs.(cor.(dts)))]
+            dts = (dt0 - 4e-4):1e-6:(dt0 + 4e-4)
+            c = cor(dts[argmax(abs.(cor.(dts)))])
+            nrm = sqrt(sum(abs2.(ref) .* w) * sum(abs2.(ours) .* w))
+            mm = 1 - real(c) / nrm
+            @printf("    pyseobnr FD pol %s %s: mm (absolute phase) %.2e, phase at peak %+.4f\n", tag, lab, mm, angle(c))
+            @test mm < 1e-3
+        end
+    end
 end
