@@ -725,14 +725,15 @@ by [`_seobv5hm_coeffs`](@ref), the same way [`SEOBNRv5IMRAlignedSpinF2`](@ref) d
 
 Per-mode output: `h_{l,-m}(f)` for positive `m`, LAL's convention (as [`IMRPhenomXHM`](@ref)'s `h_lm`): the
 Fourier transform of `h_{l,-m}(t) = (-1)^l conj(h_{l,m}(t))` with the LAL-convention modes, which are
-pyseobnr's internal modes with odd `m` negated (pyseobnr `GenerateWaveform.generate_td_modes`). Time origin:
+pyseobnr's internal modes negated (pyseobnr `GenerateWaveform.generate_td_modes`; its odd-`m` flip applies only to
+swapped masses), so `h_{l,-m} = (-1)^(l+1) conj(h^int_{l,m})`. Time origin:
 `t_attach` (the (2,2) peak to < 0.1 M), so a likelihood's `t_c` is the merger time.
 
 Accuracy vs a direct Fourier transform of the time-domain modes: per-mode noise-weighted mismatch
 ~1e-6 (aLIGO design PSD), <= 2e-5 for (4,3) at q ~ 1. The SPA region omits the merger's broadband leakage, which
 shows as a few-percent oscillating ratio in modes that are weak in the inspiral (the (4,3) at q ~ 1).
 The (2,2) table equals the (2,2)-only [`SEOBNRv5IMRAlignedSpinF2`](@ref) one (`amp e^{-i psi}`) up to its folded
-face-on factor `2/sqrt(5/(4 pi))` and a constant phase `pi`, to ~3e-4.
+face-on factor `2/sqrt(5/(4 pi))`, to ~3e-4.
 """
 struct SEOBNRv5HM end
 
