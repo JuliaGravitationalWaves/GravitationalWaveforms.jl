@@ -70,6 +70,11 @@ corresponding time is `t = n*dt`.
 - `phiRef` follows pySEOBNR/LAL (the spherical harmonics' azimuth is `pi/2 - phiRef`), which differs
   from the Phenom models' reference phase, so polarizations from the two families at the same
   `phiRef` are not directly comparable; compare `h_lm` mode by mode.
+- `SEOBNRv5HM`'s `h_lm` is LAL's `h_{l,-m}`, and `hphc` agrees with pySEOBNR's
+  `generate_fd_polarizations` in absolute phase (up to a time shift) when pySEOBNR's `f_ref` equals
+  `f_min`: `SEOBNRv5HM` has no `f_ref` argument and refers `phiRef` to the start of the waveform.
+  (Version 0.1.0 had the modes' sign wrong by `-(-1)^m`, i.e. `psi` off by `pi/2` and `phiRef` by
+  `pi`; fixed in 0.1.1. Parameters other than `phiRef` and `psi` were unaffected.)
 
 ## Float32/Float64 genericity
 

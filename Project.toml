@@ -1,7 +1,7 @@
 name = "GravitationalWaveforms"
 uuid = "203c5322-2995-43d3-9215-1ac0b1a32352"
 license = "GPL-3.0-or-later"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Paul Hopkins <paul.hopkins256@gmail.com>"]
 description = "Gravitational-wave waveform models: the IMRPhenom and SEOBNRv5 families and post-Newtonian inspirals, Float32/Float64-generic and differentiable."
 

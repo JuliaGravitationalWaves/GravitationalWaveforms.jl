@@ -772,8 +772,10 @@ struct SEOBNRv5HMTable{V<:AbstractVector{Float64},Mx<:AbstractMatrix{Float64}}
     ft_dim::Mx
 end
 
-# LAL-convention sign of the reduced FD mode h_{l,-m} = (-1)^l conj(h^LAL_lm), h^LAL_lm = (-1)^m h^int_lm.
-@inline _seobv5hm_fdsign(k) = iseven(_SEOBV5HM_L[k] + _SEOBV5HM_M[k]) ? 1.0 : -1.0
+# LAL-convention sign of the reduced FD mode h_{l,-m} = (-1)^l conj(h^LAL_lm), h^LAL_lm = -h^int_lm (pyseobnr
+# `generate_td_modes`: `fac = -M/d`, "minus sign to satisfy LAL convention"; its odd-m flip is only for swapped
+# masses, which m1 >= m2 rules out), so h_{l,-m} = (-1)^(l+1) conj(h^int_lm).
+@inline _seobv5hm_fdsign(k) = isodd(_SEOBV5HM_L[k]) ? 1.0 : -1.0
 
 # SPA amplitude ratio R = A / (varphi'/m)^((l+eps)/3) of mode k at tq.
 @inline function _seobv5hm_R(dyn, D, nqc, k, tq)
